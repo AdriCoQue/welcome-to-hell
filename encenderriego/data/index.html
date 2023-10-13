@@ -1,0 +1,115 @@
+<!--<!DOCTYPE html>
+<html class="no-js" lang="">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <title>ESP32 Forms</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+   </head>
+ 
+   <body>
+		<h1>Encender Riego</h1>
+		<form action="/LED" method="post">
+		  Opciones:<br>
+			<input type="radio" id="ledOn" name="status" value="ON" checked>
+			<label for="ledOn">Encender</label><br>
+			<input type="radio" id="ledOff" name="status" value="OFF">
+			<label for="ledOff">Apagar</label><br>
+			<button type="submit" value="Submit">Aceptar</button>
+		</form> 
+    </body>
+</html>-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>ITCHII</title>
+<!--<style>
+body {
+  margin: 0%;
+  padding: 0%;
+  width:100%;
+  height:100%;
+  background: linear-gradient(90deg, rgba(56,121,9,1) 0%, rgba(23,91,31,1) 50%, rgba(56,121,9,1) 100%);
+}
+h1 {
+  color: rgb(255, 255, 255);
+}
+button{
+  width: 30%;
+  height: 100%;
+  background-color:black;
+  color: beige;
+  border: 3px solid;
+  border-radius:1vw;
+  border-color: rgba(245, 245, 220, 0.438);
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size:1.5vw;
+}
+a,p,h1{
+  width: 100%;
+  height: 100%;
+}
+#conPrincipal{
+  margin-top: 5%;
+  width: 40%;
+  height: 80%;
+  background-color: rgba(59, 59, 59, 0.363);
+  border: 3px solid;
+  border-radius:1vw;
+  box-shadow:  2px 2px 20px rgb(3, 36, 41);
+}
+  #conS{
+    width: 100%;
+    height: 100%;
+}
+  #conS2{
+    width: 80%;
+    height: 100%;
+    text-align: left;    
+}
+</style>-->
+</head>
+<body>
+<center>
+        <div id='conPrincipal'>
+            <div id='conS'>
+                <h1>Sistema de Riego ITCHII</h1>
+            </div>
+            <!--<div id='conS'>
+                <p><a href='/on'><button>Regar</button></a></p>
+            </div>
+            <div id='conS'>
+                <p><a href='/off'><button>Suspender</button></a></p>
+            </div>-->
+            <form action="/LED" method="POST">
+              Opciones:<br>
+              <input type="radio" id="ledOn" name="status" value="ON" checked>
+              <label for="ledOn">Encender</label><br>
+              <input type="radio" id="ledOff" name="status" value="OFF">
+              <label for="ledOff">Apagar</label><br>
+              <button type="submit" value="Submit">Aceptar</button>
+            </form>
+        </div>
+    </center>
+
+    <center>
+        <div id='conPrincipal'>
+            <div id='conS'>
+                <h1>Señales</h1>
+            </div>
+            <div id='conS2'>
+                <p>Humedad de aire: </p>
+            </div>
+            <div id='conS2'>
+                <p>Humedad de suelo: </p>
+            </div>
+            <div id='conS2'>
+                <p>Temperatura: </p>
+            </div>
+        </div>
+    </center>
+
+</body>
+</html>
