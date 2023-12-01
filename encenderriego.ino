@@ -44,7 +44,7 @@ void loop(void)
   //Serial.println(); 
   HTTPClient http;
   String temp = String(data.temperature,2);
-  String humid = String(data.temperature,1);
+  String humid = String(data.humidity,1);
   String ground = String(humedadsuelo);
   //String temp = "27";
   //String humid = "25";
