@@ -9,7 +9,7 @@
 #include "ESP32_Utils.hpp"
 
 const int led = 2;
-const int sensorTemp = 16;
+const int sensorTemp = 18;
 const int sensorSuelo = 4;
 DHTesp dhtSensor;
 
@@ -51,7 +51,7 @@ void loop(void)
   //String ground = "46";
   String datos = "temp="+temp+"&humid="+humid+"&ground="+ground;
   //http.begin("http://10.8.9.104/sensores.php?temp=26&humid=23&ground=45");
-  http.begin("http://10.8.9.104/sensores.php");
+  //http.begin("http://10.8.9.104/sensores.php");
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
   //http.addHeader("Content-Type", "plain-text");
   //int respuesta = http.GET();
