@@ -1,48 +1,48 @@
-volatile int NumPulsos; //variable para la cantidad de pulsos recibidos
-int PinSensor = 15;    //Sensor conectado en el pin 2
-float factor_conversion=7.5; //para convertir de frecuencia a caudal
-float volumen=0;
-long dt=0; //variación de tiempo por cada bucle
-long t0=0; //millis() del bucle anterior
-
-//---Función que se ejecuta en interrupción---------------
-void ContarPulsos (){ 
-  NumPulsos++;  //incrementamos la variable de pulsos
-} 
-
-//---Función para obtener frecuencia de los pulsos--------
-int ObtenerFrecuecia(){
-  int frecuencia;
-  NumPulsos = 0;   //Ponemos a 0 el número de pulsos
-  interrupts();    //Habilitamos las interrupciones
-  delay(1000);   //muestra de 1 segundo
-  noInterrupts(); //Deshabilitamos  las interrupciones
-  frecuencia=NumPulsos; //Hz(pulsos por segundo)
-  return frecuencia;
+int sensor = 15;
+long currentMillis = 0;
+long previousMillis = 0;
+int interval = 1000;
+float calibrationFactor = 7.5;
+volatile byte pulseCount;
+byte pulse1Sec = 0;
+float flowRate;
+unsigned int flowMilliLitres;
+unsigned long totalMilliLitres;
+void IRAM_ATTR pulseCounter()
+{
+  pulseCount++;
 }
-
-void setup(){ 
-  Serial.begin(115200); 
-  pinMode(PinSensor, INPUT); 
-  attachInterrupt(0,ContarPulsos,RISING);//(Interrupción 0(Pin2),función,Flanco de subida)
-  Serial.println ("Envie 'r' para restablecer el volumen a 0 Litros"); 
-  t0=millis();
-} 
-
-void loop (){
-  if (Serial.available()) {
-    if(Serial.read()=='r')volumen=0;//restablecemos el volumen si recibimos 'r'
+void setup()
+{
+  Serial.begin(115200);
+  pinMode(sensor, INPUT_PULLUP);
+  pulseCount = 0;
+  flowRate = 0.0;
+  flowMilliLitres = 0;
+  totalMilliLitres = 0;
+  previousMillis = 0;
+  attachInterrupt(digitalPinToInterrupt(sensor), pulseCounter, FALLING);
+}
+void loop()
+{
+  currentMillis = millis();
+  if (currentMillis - previousMillis > interval) {
+    pulse1Sec = pulseCount;
+    pulseCount = 0;
+    flowRate = ((1000.0 / (millis() - previousMillis)) * pulse1Sec) / calibrationFactor;
+    previousMillis = millis();
+    flowMilliLitres = (flowRate / 60) * 1000;
+    totalMilliLitres += flowMilliLitres;
+    // Print the flow rate for this second in litres / minute
+    Serial.print("Flow rate: ");
+    Serial.print(int(flowRate));  // Print the integer part of the variable
+    Serial.print("L/min");
+    Serial.print("\t");       // Print tab space
+    // Print the cumulative total of litres flowed since starting
+    Serial.print("Output Liquid Quantity: ");
+    Serial.print(totalMilliLitres);
+    Serial.print("mL / ");
+    Serial.print(totalMilliLitres / 1000);
+    Serial.println("L");
   }
-  float frecuencia=ObtenerFrecuecia(); //obtenemos la frecuencia de los pulsos en Hz
-  float caudal_L_m=frecuencia/factor_conversion; //calculamos el caudal en L/m
-  dt=millis()-t0; //calculamos la variación de tiempo
-  t0=millis();
-  volumen=volumen+(caudal_L_m/60)*(dt/1000); // volumen(L)=caudal(L/s)*tiempo(s)
-
-   //-----Enviamos por el puerto serie---------------
-  Serial.print ("Caudal: "); 
-  Serial.print (caudal_L_m,3); 
-  Serial.print ("L/min\tVolumen: "); 
-  Serial.print (volumen,3); 
-  Serial.println (" L");
 }
