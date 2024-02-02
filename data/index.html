@@ -1,0 +1,49 @@
+<html>
+<head>
+<meta charset='utf-8' />
+<title>ITCHII</title>
+</head>
+<body>
+<center>
+        <div id='conPrincipal'>
+            <div id='conS'>
+                <h1>Sistema de Riego ITCHII</h1>
+            </div>
+            <!--<div id='conS'>
+                <p><a href='/on'><button>Regar</button></a></p>
+            </div>
+            <div id='conS'>
+                <p><a href='/off'><button>Suspender</button></a></p>
+            </div>-->
+            <form action="/LED" method="POST">
+              Opciones:<br>
+              <input type="radio" id="ledOn" name="status" value="ON" checked>
+              <label for="ledOn">Encender</label><br>
+              <input type="radio" id="ledOff" name="status" value="OFF">
+              <label for="ledOff">Apagar</label><br>
+              <button type="submit" value="Submit">Aceptar</button>
+            </form>
+        </div>
+    </center>
+
+    <center>
+        <div id='conPrincipal'>
+            <!--<div id='conS'>
+                <h1>Señales</h1>
+            </div>
+            <div id='conS2'>
+                <p>Humedad de aire: </p>
+            </div>
+            <div id='conS2'>
+                <p>Humedad de suelo: </p>
+            </div>
+            <div id='conS2'>
+                <p>Temperatura: </p>
+            </div>-->
+            <a href="https://10.8.9.104/sensoresdatos.php">Datos de sensores</a>
+        </div>
+    </center>
+
+</body>
+</html>
+
