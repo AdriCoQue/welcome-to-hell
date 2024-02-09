@@ -1,3 +1,4 @@
+#include <HTTPClient.h>
 #include <WiFi.h>
 #include <ESPAsyncWebSrv.h>
 #include <SPIFFS.h>
@@ -53,7 +54,6 @@ void setup(void)
 
 void loop(void)
 {
-  digitalWrite(valvula, HIGH);
   //Sensor de Temperatura y humedad del aire
   TempAndHumidity data = dhtSensor.getTempAndHumidity();
   float temp = data.temperature; //Lectura de temperatura
@@ -92,5 +92,16 @@ void loop(void)
     Serial.print(totalMilliLitres / 1000);
     Serial.println("L");
   }
+  //Envio de datos al servidor de hosting
+  HTTPClient http;
+  String datos = "temp="+String(temp)+"&humid="+String(humid)+"&ground="+String(humidity); //Juntar datos
+  http.begin("https://tec2riego.000webhostapp.com/CodigoPhp/sensores.php"); //URL de envio
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  int respuesta = http.POST(datos); //POST de los datos
+  String response = http.getString();
+  Serial.print("Respuesta: ");
+  Serial.print(respuesta);
+  Serial.println(response);
+  
   delay(2000);
 }
